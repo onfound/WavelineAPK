@@ -51,6 +51,26 @@ public class Core {
         if (line.isCrashed()) gameOver = true;
     }
 
+    boolean tapped() {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > timeMS + 50) {  // нельзя быстро нажать 2 тапа (защита)
+            startGame = true;
+            line.tap();
+        }
+        timeMS = currentTime;
+        if (gameOver) {
+            line = new Line(Core.widthPanel, Core.heightPanel, Core.widthLine);
+
+            for (int i = 0; i < 3; i++) {
+                sticks[i] = new Stick(Core.widthPanel, Core.heightPanel);
+            }
+            text = new TextForPlay().getText();
+            gameOver = false;
+            startGame = false;
+            score = 0;
+        }
+        return true;
+    }
 
 
     class ThreadCore extends Thread {
@@ -58,7 +78,7 @@ public class Core {
         @Override
         public void run() {
             super.run();
-            while(true){
+            while (true) {
                 try {
                     sleep(20);
                     if (!gameOver) {
@@ -94,6 +114,7 @@ public class Core {
         count--;
 
     }
+
     Line getLine() {
         return line;
     }

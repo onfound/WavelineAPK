@@ -12,7 +12,7 @@ class Line {
         this.width = width;
         this.widthLine = widthLine;
         x1 = width / 2;
-        y1 = height / 5 * 3 ;
+        y1 = height / 5 * 3;
     }
 
     void start() {
@@ -44,7 +44,7 @@ class Line {
 
     private void move() {
         x1 += dx;
-        if (x1 <= 0 || x1 >= width - widthLine * 2) {
+        if (x1 <= 0 || x1 >= width) {
             move = false;
             crashed = true;
         }

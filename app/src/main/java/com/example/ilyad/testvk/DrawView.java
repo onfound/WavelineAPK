@@ -18,7 +18,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return event.getAction() != MotionEvent.ACTION_DOWN || drawThread.tapped();
+        return event.getAction() != MotionEvent.ACTION_DOWN || drawThread.core.tapped();
     }
 
     @Override
@@ -62,27 +62,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
             this.running = running;
         }
 
-        boolean tapped() {
-            long currentTime = System.currentTimeMillis();
-            if (currentTime > core.getTimeMS() + 50) {  // нельзя быстро нажать 2 тапа (защита)
-                core.setStartGame(true);
-                core.getLine().tap();
-            }
-            core.setTimeMS(currentTime);
-            if (core.isGaveOver()) {
-                core.setLine(new Line(Core.widthPanel, Core.heightPanel, Core.widthLine));
-                Stick[] tempStick = core.getSticks();
-                for (int i = 0; i < 3; i++) {
-                    tempStick[i] = new Stick(Core.widthPanel, Core.heightPanel);
-                }
-                core.setSticks(tempStick);
-                core.setText(new TextForPlay().getText());
-                core.setGameOver(false);
-                core.setStartGame(false);
-                core.setScore(0);
-            }
-            return true;
-        }
+
 
         @Override
         public void run() {
@@ -177,7 +157,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
             canvas.drawText("You scrore: " + core.getScore(), 150, 300, p);
         }
         p.setStrokeWidth(20);
-        canvas.drawText("press enter to replay", 170, 500, p);
+        canvas.drawText("Tap to replay", 170, 500, p);
     }
 
 }
