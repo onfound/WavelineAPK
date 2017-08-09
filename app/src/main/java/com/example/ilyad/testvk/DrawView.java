@@ -78,9 +78,6 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                     canvas = surfaceHolder.lockCanvas(null);
                     if (canvas == null) continue;
                     canvas.drawColor(Color.rgb(23,12,36));
-//                    Paint clearPaint = new Paint();
-//                    clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-//                    canvas.drawRect(0, 0, width, height, clearPaint);
                     p.setStrokeWidth(Core.widthLine);
                     if (!core.isGaveOver()) {
                         paintCurveLine(canvas, p, core);
@@ -88,13 +85,13 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
                         if (core.isStartGame()) {
                             p.setColor(Color.WHITE);
                             if (core.getScore() != core.getOldScore()) {
-                                p.setTextSize(80);
+                                p.setTextSize(core.getCount());
                                 core.countWane();
                             } else core.setCount(100);  // анимация для score
-                            if (core.getCount() == 50) {
+                            if (core.getCount() == 80) {
                                 core.setOldScore(core.getScore());
                             }
-                            canvas.drawText(String.valueOf(core.getScore()), Core.widthPanel / 2, 100, p);   // после 100 очков счет пишется также по центру
+                            canvas.drawText(String.valueOf(core.getScore()), (Core.widthPanel ) / 2 , 100, p);   // после 100 очков счет пишется также по центру
                         }
 
                     } else {
@@ -158,6 +155,7 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
         }
         p.setStrokeWidth(20);
         canvas.drawText("Tap to replay", 170, 500, p);
+        p.setTextSize(80);
     }
 
 }

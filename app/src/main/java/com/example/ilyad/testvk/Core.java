@@ -3,7 +3,7 @@ package com.example.ilyad.testvk;
 
 import java.io.*;
 
-public class Core {
+class Core {
 
     static final int widthLine = 20;
     private Line line;
@@ -14,9 +14,7 @@ public class Core {
     private int maxScore;
     private int count;
     private long timeMS;
-    private int distanceStick;
     private String text;
-    private File file;
     static final int heightPanel = 1230;
     static final int widthPanel = 720;
 
@@ -29,10 +27,9 @@ public class Core {
         line = new Line(widthPanel, heightPanel, widthLine);
 
         text = new TextForPlay().getText();
-        file = new File("score.txt");
+
         score = oldScore = 0;
         maxScore = 30;
-
         ThreadCore threadCore = new ThreadCore();
         threadCore.start();
 
@@ -60,7 +57,6 @@ public class Core {
         timeMS = currentTime;
         if (gameOver) {
             line = new Line(Core.widthPanel, Core.heightPanel, Core.widthLine);
-
             for (int i = 0; i < 3; i++) {
                 sticks[i] = new Stick(Core.widthPanel, Core.heightPanel);
             }
@@ -71,7 +67,7 @@ public class Core {
         }
         return true;
     }
-
+    /*Thread core (timer)*/
 
     class ThreadCore extends Thread {
 
@@ -80,14 +76,14 @@ public class Core {
             super.run();
             while (true) {
                 try {
-                    sleep(20);
+                    sleep(15);
                     if (!gameOver) {
                         line.start();
                         if (startGame) {
                             int y0 = sticks[0].getY();
                             int y1 = sticks[1].getY();
                             int y2 = sticks[2].getY();
-                            distanceStick = heightPanel / 2 + Stick.delay;
+                            int distanceStick = heightPanel / 2 + Stick.delay;
                             if (y2 == Stick.delay || y1 > distanceStick || y2 > distanceStick) sticks[0].start();
                             if (y0 > distanceStick || y1 > distanceStick) sticks[1].start();
                             if (y1 > distanceStick || y2 > distanceStick) sticks[2].start();
@@ -106,13 +102,11 @@ public class Core {
     }
 
     void setCount(int count) {
-
         this.count = count;
     }
 
     void countWane() {
         count--;
-
     }
 
     Line getLine() {
@@ -147,47 +141,11 @@ public class Core {
         return count;
     }
 
-    long getTimeMS() {
-        return timeMS;
-    }
-
     String getText() {
         return text;
     }
 
-    void setStartGame(boolean startGame) {
-        this.startGame = startGame;
-    }
-
     void setMaxScore(int maxScore) {
         this.maxScore = maxScore;
-    }
-
-    void setTimeMS(long timeMS) {
-        this.timeMS = timeMS;
-    }
-
-    void setScore(int score) {
-        this.score = score;
-    }
-
-    void setGameOver(boolean gameOver) {
-
-        this.gameOver = gameOver;
-    }
-
-    void setText(String text) {
-
-        this.text = text;
-    }
-
-    void setSticks(Stick[] sticks) {
-
-        this.sticks = sticks;
-    }
-
-    void setLine(Line line) {
-
-        this.line = line;
     }
 }
